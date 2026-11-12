@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Pemuda Qoryah Babakan - Wangun pemudana, kaarah salarea</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        paper: '#FDFBF7',
+                        terracotta: '#D97757',
+                        sage: '#8A9A86',
+                        olive: '#3B4D3C',
+                        clay: '#E2B897',
+                        sand: '#F4ECE1',
+                        ink: '#2B2927'
+                    },
+                    fontFamily: {
+                        playfair: ['Playfair Display', 'serif'],
+                        poppins: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- CSS eksternal -->
+    <link href="./css/style.css" rel="stylesheet" />
+</head>
+
+<body class="min-h-screen flex flex-col antialiased">
+    <!-- NAVIGATION BAR -->
+    <nav class="sticky top-0 z-50 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-ink/20">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a class="flex items-center space-x-3 group" href="#">
+                <div class="w-12 h-12 rounded-full overflow-hidden">
+                    <img alt="Logo Pemuda Qoryah" class="w-full h-full object-contain"
+                        src="./assets/image/pemudalogo.svg" />
+                </div>
+                <div>
+                    <span class="block font-headline font-bold text-lg text-ink leading-tight">
+                        Pemuda Qoryah Babakan
+                    </span>
+                    <span class="block text-xs italic text-terracotta font-medium">
+                        "Wangun pemudana, Kaarah salarea"
+                    </span>
+                </div>
+            </a>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-6 text-xs font-semibold text-ink">
+                <a class="hover:text-terracotta transition-colors" href="#jadwal">Jadwal &amp; Event</a>
+                <a class="hover:text-terracotta transition-colors" href="#profil">Profil</a>
+                <a class="hover:text-terracotta transition-colors" href="#kegiatan">Kegiatan Rutin</a>
+                <a class="hover:text-terracotta transition-colors" href="#kas">Transparansi Kas</a>
+                <a class="hover:text-terracotta transition-colors" href="#galeri">Galeri Foto</a>
+                <a class="px-4 py-2 bg-olive text-paper rounded-full border border-ink shadow-[2px_2px_0px_0px_#2B2927] hover:bg-olive/90 transition-all"
+                    href="#ibadah">
+                    <i class="fa-solid fa-book-quran mr-1.5"></i>
+                    Info Ibadah
+                </a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button aria-controls="mobile-menu" aria-expanded="false" aria-label="Buka atau tutup navigasi"
+                class="md:hidden text-ink text-2xl p-2 focus:outline-none" id="menu-btn">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+        <!-- Mobile Dropdown -->
+        <div class="hidden md:hidden bg-sand border-b border-ink/20 px-4 py-4 space-y-3 font-medium text-sm"
+            id="mobile-menu">
+            <a class="mobile-link block text-ink hover:text-terracotta" href="#jadwal">Jadwal &amp; Event</a>
+            <a class="mobile-link block text-ink hover:text-terracotta" href="#profil">Profil &amp; Visi Misi</a>
+            <a class="mobile-link block text-ink hover:text-terracotta" href="#kegiatan">Kegiatan Rutin</a>
+            <a class="mobile-link block text-ink hover:text-terracotta" href="#kas">Transparansi Keuangan</a>
+            <a class="mobile-link block text-ink hover:text-terracotta" href="#galeri">Galeri Foto</a>
+            <a class="mobile-link block text-center py-2 bg-olive text-paper rounded-full border border-ink"
+                href="#ibadah">
+                <i class="fa-solid fa-book-quran mr-1"></i>
+                Penunjang Ibadah
+            </a>
+        </div>
+    </nav>
+    <!-- HERO SECTION -->
+    <header class="py-16 md:py-24 px-4 max-w-4xl mx-auto text-center relative">
+        <div
+            class="inline-block px-4 py-1.5 mb-6 text-xs font-semibold text-olive bg-sand border border-ink/30 rounded-full">
+            Wilujeng Sumping
+        </div>
+        <h1 class="font-headline italic text-4xl md:text-6xl font-bold text-ink mb-6 leading-tight">
+            Pemuda Qoryah Babakan
+        </h1>
+        <div
+            class="inline-block bg-white px-6 py-2 rounded-2xl border border-ink shadow-[3px_3px_0px_0px_#D97757] mb-6">
+            <p class="font-headline italic text-xl md:text-3xl text-terracotta font-semibold">
+                "Wangun pemudana, Kaarah salarea"
+            </p>
+        </div>
+        <p class="max-w-2xl mx-auto text-sm md:text-base text-ink/80 mb-8 leading-relaxed">
+            Seperti kata pepatah, bahwa
+            <br /> "Kemajuan suatu bangsa terletak di pundak para pemuda".
+            <br /> Mengacu pada pepatah tersebut, tentunya golongan muda harus benar-benar dibina agar kelak bisa
+            menjadi
+            insan yang berdaya
+            guna. <br /> Adapun keberdaya-gunaan golongan muda musti diupayakan sejak dini dan semaksimal mungkin.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 text-xs font-semibold">
+            <a class="px-6 py-3 bg-terracotta text-paper rounded-full border border-ink shadow-[3px_3px_0px_0px_#2B2927] hover:bg-terracotta/90 transition-all"
+                href="#kegiatan">
+                <i class="fa-regular fa-calendar-check mr-2"></i>
+                Lihat Agenda Rutin
+            </a>
+            <a class="px-6 py-3 bg-white text-ink rounded-full border border-ink shadow-[3px_3px_0px_0px_#8A9A86] hover:bg-sand transition-all"
+                href="#kas">
+                <i class="fa-solid fa-wallet mr-2 text-olive"></i>
+                Transparansi Kas
+            </a>
+        </div>
+    </header>
+    <!-- KALENDER HIJRIAH & JADWAL SHOLAT -->
+    <section class="py-10 px-4 max-w-5xl mx-auto w-full" id="jadwal">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            <!-- KALENDER HIJRIAH -->
+            <div class="text-center py-4">
+                <div class="font-headline font-bold text-2xl text-ink mb-2" id="hijri-date">
+                    Memuat tanggal Hijriah...
+                </div>
+                <div class="inline-block text-xs text-ink/70 bg-paper border border-ink/20 rounded-full px-4 py-2"
+                    id="masehi-date">
+                    Memuat tanggal Masehi...
+                </div>
+            </div>
+            <!-- JADWAL SHOLAT -->
+            <div class="grid grid-cols-5 gap-2 text-center">
+                <div class="p-3 rounded-lg bg-white border border-ink/20">
+                    <span class="block text-[10px] text-ink/60">Subuh</span>
+                    <span class="text-sm font-bold text-ink" id="fajr">--:--</span>
+                </div>
+                <div class="p-3 rounded-lg bg-white border border-ink/20">
+                    <span class="block text-[10px] text-ink/60">Dzuhur</span>
+                    <span class="text-sm font-bold text-ink" id="dhuhr">--:--</span>
+                </div>
+                <div class="p-3 rounded-lg bg-white border border-ink/20">
+                    <span class="block text-[10px] text-ink/60">Ashar</span>
+                    <span class="text-sm font-bold text-ink" id="asr">--:--</span>
+                </div>
+                <div class="p-3 rounded-lg bg-white border border-ink/20">
+                    <span class="block text-[10px] text-ink/60">Maghrib</span>
+                    <span class="text-sm font-bold text-ink" id="maghrib">--:--</span>
+                </div>
+                <div class="p-3 rounded-lg bg-white border border-ink/20">
+                    <span class="block text-[10px] text-ink/60">Isya</span>
+                    <span class="text-sm font-bold text-ink" id="isha">--:--</span>
+                </div>
+                <p class="col-span-5 text-[10px] text-ink/50 mt-1" id="prayer-source">
+                </p>
+            </div>
+        </div>
+    </section>
+    <!-- ACARA RUTIN MENDATANG -->
+    <section class="w-full px-4 py-8" id="acara-rutin">
+        <div class="art-card w-full max-w-5xl mx-auto p-6 md:p-8 bg-olive text-paper">
+            <div class="p-2 md:p-4 flex flex-col justify-between">
+                <div class="flex items-center justify-between border-b border-paper/20 pb-3 mb-3">
+                    <span class="text-xs font-bold uppercase text-clay">
+                        Acara Rutin Mendatang
+                    </span>
+                    <i class="fa-solid fa-bullhorn text-clay text-lg"></i>
+                </div>
+                <div class="text-center">
+                    <h4 class="font-headline italic font-bold text-xl text-paper mb-1" id="cd-title">
+                        Kegiatan Rutin Pemuda
+                    </h4>
+                    <p class="text-xs text-clay mb-4" id="cd-subtitle">
+                        Menyiapkan kegiatan berikutnya
+                    </p>
+                    <div class="grid grid-cols-4 gap-2 text-center">
+                        <div class="bg-paper/10 p-2 rounded-lg border border-paper/20">
+                            <span class="block font-bold text-xl text-clay" id="cd-days">00</span>
+                            <span class="text-[9px] uppercase font-medium">Hari</span>
+                        </div>
+                        <div class="bg-paper/10 p-2 rounded-lg border border-paper/20">
+                            <span class="block font-bold text-xl text-clay" id="cd-hours">00</span>
+                            <span class="text-[9px] uppercase font-medium">Jam</span>
+                        </div>
+                        <div class="bg-paper/10 p-2 rounded-lg border border-paper/20">
+                            <span class="block font-bold text-xl text-clay" id="cd-minutes">00</span>
+                            <span class="text-[9px] uppercase font-medium">Menit</span>
+                        </div>
+                        <div class="bg-paper/10 p-2 rounded-lg border border-paper/20">
+                            <span class="block font-bold text-xl text-clay" id="cd-seconds">00</span>
+                            <span class="text-[9px] uppercase font-medium">Detik</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- KEGIATAN RUTIN -->
+    <section class="py-12 px-4 max-w-6xl mx-auto" id="kegiatan">
+        <div class="text-center mb-8">
+            <h2 class="font-headline italic text-3xl md:text-4xl font-bold text-ink mb-2">Kegiatan Rutin Pemuda</h2>
+            <p class="text-xs text-terracotta font-semibold uppercase tracking-wider">Agenda Keagamaan &amp; Penuh
+                Manfaat
+            </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="art-card p-6 bg-white flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span
+                            class="px-3 py-1 bg-sand text-ink text-[11px] font-bold rounded-full border border-ink/30">
+                            Senin Malam</span>
+                        <span class="text-xs text-terracotta font-semibold"><i class="fa-regular fa-clock mr-1"></i>
+                            18.20 WIB</span>
+                    </div>
+                    <h3 class="font-headline font-bold text-xl text-ink mb-2">Tadarus Pemuda/I</h3>
+                    <p class="text-xs text-ink/75 leading-relaxed mb-4">Menerjemahkan dan mentadaburi isi kandungan
+                        ayat-ayat suci Al-Qur'an &amp; Sunnah Nabi Muhammad SAW.</p>
+                </div>
+                <div class="pt-3 border-t border-ink/10 text-xs text-ink/70">
+                    <i class="fa-solid fa-location-dot text-terracotta mr-1"></i> Lantai 1 Masjid As-Salam
+                </div>
+            </div>
+            <div class="art-card p-6 bg-white flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span
+                            class="px-3 py-1 bg-clay text-ink text-[11px] font-bold rounded-full border border-ink/30">
+                            Selasa Malam</span>
+                        <span class="text-xs text-terracotta font-semibold"><i class="fa-regular fa-clock mr-1"></i>
+                            19.40 WIB</span>
+                    </div>
+                    <h3 class="font-headline font-bold text-xl text-ink mb-2">Ngobrolkeun Kangjeng Nabi</h3>
+                    <p class="text-xs text-ink/75 leading-relaxed mb-4">Kajian Siroh Nabawiyah bari ngopi.</p>
+                </div>
+                <div class="pt-3 border-t border-ink/10 text-xs text-ink/70">
+                    <i class="fa-solid fa-location-dot text-terracotta mr-1"></i> Lantai 2 Masjid As-Salam
+                </div>
+            </div>
+            <div class="art-card p-6 bg-white flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span
+                            class="px-3 py-1 bg-sage text-paper text-[11px] font-bold rounded-full border border-ink/30">
+                            Kamis Malam</span>
+                        <span class="text-xs text-terracotta font-semibold"><i class="fa-regular fa-clock mr-1"></i>
+                            19.40 WIB</span>
+                    </div>
+                    <h3 class="font-headline font-bold text-xl text-ink mb-2">Bersih-bersih Masjid</h3>
+                    <p class="text-xs text-ink/75 leading-relaxed mb-4">Gotong royong membersihkan area utama, tempat
+                        wudhu,
+                        dan karpet masjid.</p>
+                </div>
+                <div class="pt-3 border-t border-ink/10 text-xs text-ink/70">
+                    <i class="fa-solid fa-broom text-sage mr-1"></i> Masjid As-Salam
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- PETUGAS TADARUS -->
+    <section class="py-12 px-4 max-w-6xl mx-auto" id="petugas">
+        <div class="art-card p-6 md:p-8 bg-white">
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-ink/10 gap-2">
+                <div>
+                    <span
+                        class="px-3 py-1 bg-sand text-ink text-[10px] font-bold uppercase rounded-full border border-ink/20">Jadwal
+                        Mingguan</span>
+                    <h2 class="font-headline italic text-2xl md:text-3xl font-bold text-ink mt-2">Petugas Tadarus Senin
+                        Malam</h2>
+                    <p class="text-xs text-terracotta font-semibold">Daftar Petugas Pelaksana Kegiatan Tadarus Al-Qur'an
+                        &amp;
+                        Sunnah</p>
+                </div>
+                <div
+                    class="text-left md:text-right text-xs text-ink/70 bg-sand/60 px-4 py-2 rounded-xl border border-ink/20">
+                    <i class="fa-regular fa-calendar-check text-terracotta mr-1"></i> Rutin Setiap Senin Malam<br />
+                    <span class="font-semibold text-ink">Pukul 18.20 WIB - Selesai</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                <div class="art-card-alt p-5 flex flex-col items-center text-center">
+                    <div
+                        class="w-12 h-12 rounded-full bg-terracotta text-paper flex items-center justify-center text-xl border border-ink mb-3">
+                        <i class="fa-solid fa-microphone"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-terracotta uppercase tracking-wider">Petugas 01</span>
+                    <h3 class="font-headline font-bold text-lg text-ink my-1">MC / Pembawa Acara</h3>
+                    <p class="text-xs text-ink/60 mb-4">Memandu jalannya rangkaian susunan acara tadarusan.</p>
+                    <div class="mt-auto w-full pt-3 border-t border-ink/20 bg-white p-2 rounded-lg border">
+                        <span class="block text-[10px] text-ink/50 uppercase font-semibold">Petugas yang bertugas</span>
+                        <span class="text-sm font-headline font-bold text-ink" id="petugas-mc">Memuat...</span>
+                    </div>
+                </div>
+                <div class="art-card-alt p-5 flex flex-col items-center text-center">
+                    <div
+                        class="w-12 h-12 rounded-full bg-clay text-ink flex items-center justify-center text-xl border border-ink mb-3">
+                        <i class="fa-solid fa-scroll"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-olive uppercase tracking-wider">Petugas 02</span>
+                    <h3 class="font-headline font-bold text-lg text-ink my-1">Pembaca Ikrar</h3>
+                    <p class="text-xs text-ink/60 mb-4">Memimpin pembacaan ikrar kaislaman kebersamaan pemuda.</p>
+                    <div class="mt-auto w-full pt-3 border-t border-ink/20 bg-white p-2 rounded-lg border">
+                        <span class="block text-[10px] text-ink/50 uppercase font-semibold">Petugas yang bertugas</span>
+                        <span class="text-sm font-headline font-bold text-ink" id="petugas-ikrar">Memuat...</span>
+                    </div>
+                </div>
+                <div class="art-card-alt p-5 flex flex-col items-center text-center">
+                    <div
+                        class="w-12 h-12 rounded-full bg-sage text-paper flex items-center justify-center text-xl border border-ink mb-3">
+                        <i class="fa-solid fa-book-quran"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-sage uppercase tracking-wider">Petugas 03</span>
+                    <h3 class="font-headline font-bold text-lg text-ink my-1">Penerjemah Al-Qur'an</h3>
+                    <p class="text-xs text-ink/60 mb-4">Memimpin terjemahan ayat Al-Qur'an.</p>
+                    <div class="mt-auto w-full pt-3 border-t border-ink/20 bg-white p-2 rounded-lg border">
+                        <span class="block text-[10px] text-ink/50 uppercase font-semibold">Petugas yang bertugas</span>
+                        <span class="text-sm font-headline font-bold text-ink" id="petugas-penerjemah">Memuat...</span>
+                    </div>
+                </div>
+                <div class="art-card-alt p-5 flex flex-col items-center text-center">
+                    <div
+                        class="w-12 h-12 rounded-full bg-olive text-paper flex items-center justify-center text-xl border border-ink mb-3">
+                        <i class="fa-solid fa-users-rays"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-olive uppercase tracking-wider">Petugas 04</span>
+                    <h3 class="font-headline font-bold text-lg text-ink my-1">Imam Sholat Isya</h3>
+                    <p class="text-xs text-ink/60 mb-4">Memimpin sholat Isya berjamaah setelah tadarusan.</p>
+                    <div class="mt-auto w-full pt-3 border-t border-ink/20 bg-white p-2 rounded-lg border">
+                        <span class="block text-[10px] text-ink/50 uppercase font-semibold">Petugas yang bertugas</span>
+                        <span class="text-sm font-headline font-bold text-ink" id="petugas-imam">Memuat...</span>
+                    </div>
+                </div>
+                <!-- PETUGAS 05: PERELEK -->
+                <div class="art-card-alt p-5 flex flex-col items-center text-center">
+                    <div
+                        class="w-12 h-12 rounded-full bg-clay text-ink flex items-center justify-center text-xl border border-ink mb-3">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-terracotta uppercase tracking-wider">Petugas 05</span>
+                    <h3 class="font-headline font-bold text-lg text-ink my-1">Perelek</h3>
+                    <p class="text-xs text-ink/60 mb-4">Petugas pengumpulan perelek warga qoryah babakan.</p>
+                    <div class="mt-auto w-full pt-3 border-t border-ink/20 bg-white p-2 rounded-lg border">
+                        <span class="block text-[10px] text-ink/50 uppercase font-semibold">Petugas yang bertugas</span>
+                        <span class="text-sm font-headline font-bold text-ink" id="petugas-perelek">Memuat...</span>
+                    </div>
+                </div>
+
+                <!-- PETUGAS 06: KENCLENG -->
+                <div class="art-card-alt p-5 flex flex-col items-center text-center">
+                    <div
+                        class="w-12 h-12 rounded-full bg-sage text-paper flex items-center justify-center text-xl border border-ink mb-3">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
+
+                    <span class="text-[10px] font-bold text-olive uppercase tracking-wider">Petugas 06</span>
+                    <h3 class="font-headline font-bold text-lg text-ink my-1">Kencleng</h3>
+
+                    <p class="text-xs text-ink/60 mb-4">
+                        Petugas pengelola infak warga qoryah babakan.
+                    </p>
+
+                    <div class="mt-auto w-full pt-3 border-t border-ink/20 bg-white p-2 rounded-lg border">
+                        <span class="block text-[10px] text-ink/50 uppercase font-semibold">
+                            Petugas yang bertugas
+                        </span>
+                        <span class="text-sm font-headline font-bold text-ink" id="petugas-kencleng">
+                            Memuat...
+                        </span>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <!-- TRANSPARANSI KAS -->
+    <section class="py-12 px-4 max-w-5xl mx-auto" id="kas">
+        <div class="art-card p-6 md:p-8 bg-white">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 pb-4 border-b border-ink/10">
+                <div>
+                    <h2 class="font-headline italic text-2xl md:text-3xl font-bold text-ink">Transparansi Anggaran Kas
+                    </h2>
+                    <p class="text-xs text-ink/60 mt-1">Laporan ringkas kas masuk, keluar, dan saldo pemuda</p>
+                </div>
+                <div class="mt-4 md:mt-0 px-5 py-2.5 bg-sand border border-ink/30 rounded-xl text-right">
+                    <span class="block text-[10px] font-bold text-olive uppercase">Total Saldo Kas Pemuda</span>
+                    <span class="font-headline text-2xl font-bold text-olive" id="kas-saldo-akhir">Memuat...</span>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-sand text-ink border-b border-ink font-bold">
+                            <th class="p-3">Tanggal</th>
+                            <th class="p-3">Keterangan</th>
+                            <th class="p-3 text-right">Masuk</th>
+                            <th class="p-3 text-right">Keluar</th>
+                            <th class="p-3 text-right">Saldo Kas</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-ink/10 text-ink/80" id="kas-riwayat">
+                        <tr>
+                            <td class="p-4 text-center text-ink/50" colspan="5">Memuat laporan kas...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4 text-right text-[11px] text-ink/50 italic" id="kas-updated">Data kas dimuat langsung dari
+                Google Sheets.</div>
+        </div>
+    </section>
+    <!-- PROFIL & VISI MISI -->
+    <section class="py-12 px-4 max-w-5xl mx-auto" id="profil">
+        <div class="art-card p-8 md:p-10 bg-white">
+            <div class="max-w-3xl mx-auto text-center">
+                <div class="w-24 h-24 mx-auto mb-4">
+                    <img alt="Logo Pemuda Qoryah" class="w-full h-full object-contain"
+                        src="./assets/image/pemudalogo.svg" />
+                </div>
+                <h2 class="font-headline italic text-3xl md:text-4xl font-bold text-ink mb-3">
+                    Profil &amp; Spirit Organisasi
+                </h2>
+                <div class="w-20 h-1 bg-terracotta mx-auto mb-6 rounded-full"></div>
+                <p class="text-ink/80 text-sm md:text-base leading-relaxed mb-8">
+                    <strong>Pemuda Qoryah Babakan</strong> pada hakikatnya merupakan kepanjangan tangan dari Pengasuh
+                    dan
+                    Pengurus YPI (Yayasan Pesantren Islam) Qoryah Babakan dalam hal kepemudaan.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                    <div class="p-5 bg-sand rounded-2xl border border-ink/20">
+                        <h3 class="font-headline font-bold text-ink text-lg mb-2 flex items-center">
+                            <i class="fa-solid fa-compass text-terracotta mr-2"></i> Visi Kepemudaan
+                        </h3>
+                        <p class="text-xs text-ink/80 leading-relaxed">
+                            Terwujudnya generasi Pemuda/i Qoryah Babakan yang sehat, berkualitas, berakhlakul karimah,
+                            dan
+                            bermanfaat bagi masyarakat.
+                        </p>
+                    </div>
+                    <div class="p-5 bg-sand rounded-2xl border border-ink/20">
+                        <h3 class="font-headline font-bold text-ink text-lg mb-2 flex items-center">
+                            <i class="fa-solid fa-heart-pulse text-olive mr-2"></i> Misi Kepemudaan
+                        </h3>
+                        <ul class="text-xs text-ink/80 space-y-1.5 list-disc list-inside">
+                            <li>Meningkatkan kualitas kehidupan beragama dan menjadikan Al-Qur&rsquo;an dan Al-Hadits
+                                sebagai
+                                pedoman hidup.</li>
+                            <li>Menciptakan Pemuda/i Qoryah Babakan yang peka dan peduli terhadap lingkungan.</li>
+                            <li>Meningkatkan kualitas Pemuda/i Qoryah Babakan yang bertanggungjawab, berjiwa wirausaha
+                                dan
+                                mandiri.</li>
+                            <li>Memberdayakan potensi Pemuda/i Qoryah Babakan.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERI KEBERSAMAAN -->
+    <section id="galeri" class="gallery-section">
+
+        <div class="text-center mb-8 px-4">
+            <h2 class="font-headline italic text-3xl md:text-4xl font-bold text-ink mb-1">
+                Galeri Kebersamaan
+            </h2>
+            <p class="text-xs text-terracotta font-semibold uppercase tracking-wider">
+                Dokumentasi Foto Kegiatan
+            </p>
+        </div>
+
+        <div class="gallery-marquee">
+
+            <!-- BARIS PERTAMA: FOTO 1-25, BERGERAK KE KANAN -->
+            <div class="gallery-row gallery-row-top">
+                <div class="gallery-track gallery-right" id="gallery-track-1"></div>
+            </div>
+
+            <!-- BARIS KEDUA: FOTO 26-50, BERGERAK KE KIRI -->
+            <div class="gallery-row gallery-row-bottom">
+                <div class="gallery-track gallery-left" id="gallery-track-2"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TAUTAN IBADAH -->
+    <section class="py-12 px-4 max-w-6xl mx-auto space-y-10" id="ibadah">
+        <div class="art-card p-6 md:p-8 bg-olive text-paper">
+            <div class="text-center mb-6">
+                <h3 class="font-headline italic text-2xl md:text-3xl font-bold text-clay">
+                    Tautan Penunjang Ibadah &amp; Literasi
+                </h3>
+                <p class="text-xs text-paper/80 mt-1">
+                    Layanan digital dan referensi syariah harian pemuda &amp; warga
+                </p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Al-Qur'an Online -->
+                <a class="p-4 bg-paper/10 hover:bg-paper/20 border border-paper/20 rounded-xl text-center transition-all group"
+                    href="https://quran.kemenag.go.id/" rel="noopener noreferrer" target="_blank">
+                    <img alt="Ikon Al-Qur'an"
+                        class="w-8 h-8 mx-auto mb-2 object-contain group-hover:scale-110 transition-transform"
+                        src="./assets/icon/quran.svg" />
+                    <span class="block text-xs font-bold text-paper">
+                        Al-Qur'an Online
+                    </span>
+                    <span class="text-[9px] text-paper/70">
+                        Terjemahan &amp; Audio
+                    </span>
+                </a>
+                <!-- Kamus Al-Qur'an -->
+                <a class="p-4 bg-paper/10 hover:bg-paper/20 border border-paper/20 rounded-xl text-center transition-all group"
+                    href="https://heyzine.com/flip-book/84c9ea0ae2.html" rel="noopener noreferrer" target="_blank">
+                    <img alt="Ikon Kamus Al-Qur'an"
+                        class="w-8 h-8 mx-auto mb-2 object-contain group-hover:scale-110 transition-transform"
+                        src="./assets/icon/kitab.svg" />
+                    <span class="block text-xs font-bold text-paper">
+                        Qomus Qur'an
+                    </span>
+                    <span class="text-[9px] text-paper/70">
+                        Qomus Qur'an Karya K.H.U Abdurrahman Ya'qub
+                    </span>
+                </a>
+                <!-- Bulughul Maram -->
+                <a class="p-4 bg-paper/10 hover:bg-paper/20 border border-paper/20 rounded-xl text-center transition-all group"
+                    href="https://app.turath.io/book/17757?page=1" rel="noopener noreferrer" target="_blank">
+                    <img alt="Ikon Bulughul Maram"
+                        class="w-8 h-8 mx-auto mb-2 object-contain group-hover:scale-110 transition-transform"
+                        src="./assets/icon/kitab.svg" />
+                    <span class="block text-xs font-bold text-paper">
+                        Bulughul Maram
+                    </span>
+                    <span class="text-[9px] text-paper/70">
+                        Kajian Hadis Hukum
+                    </span>
+                </a>
+                <!-- Kitab Nurul Yaqin -->
+                <a class="p-4 bg-paper/10 hover:bg-paper/20 border border-paper/20 rounded-xl text-center transition-all group"
+                    href="https://app.turath.io/book/23692?page=1" rel="noopener noreferrer" target="_blank">
+                    <img alt="Ikon Kitab Nurul Yaqin"
+                        class="w-8 h-8 mx-auto mb-2 object-contain group-hover:scale-110 transition-transform"
+                        src="./assets/icon/kitab.svg" />
+                    <span class="block text-xs font-bold text-paper">
+                        Kitab Nurul Yaqin
+                    </span>
+                    <span class="text-[9px] text-paper/70">
+                        Sejarah &amp; Sirah Nabawiyah
+                    </span>
+                </a>
+                <!-- Jadwal Sholat -->
+                <a class="p-4 bg-paper/10 hover:bg-paper/20 border border-paper/20 rounded-xl text-center transition-all group"
+                    href="https://jadwalsholat.org" rel="noopener noreferrer" target="_blank">
+                    <img alt="Ikon Jadwal Sholat"
+                        class="w-8 h-8 mx-auto mb-2 object-contain group-hover:scale-110 transition-transform"
+                        src="./assets/icon/sholat.svg" />
+                    <span class="block text-xs font-bold text-paper">
+                        Jadwal Sholat
+                    </span>
+                    <span class="text-[9px] text-paper/70">
+                        Jadwal Waktu Sholat
+                    </span>
+                </a>
+                <!-- Pustaka Tafsir -->
+                <a class="p-4 bg-paper/10 hover:bg-paper/20 border border-paper/20 rounded-xl text-center transition-all group"
+                    href="https://tafsir.app/" rel="noopener noreferrer" target="_blank">
+                    <img alt="Ikon Kalkulator Zakat"
+                        class="w-8 h-8 mx-auto mb-2 object-contain group-hover:scale-110 transition-transform"
+                        src="./assets/icon/tafsir.svg" />
+                    <span class="block text-xs font-bold text-paper">
+                        Pustaka Tafsir
+                    </span>
+                    <span class="text-[9px] text-paper/70">
+                        Beragam Pilihan Tafsir Al-Qur&rsquo;an
+                    </span>
+                </a>
+                <!-- Arah Kiblat -->
+                <a class="p-4 bg-paper/10 hover:bg-paper/20 border border-paper/20 rounded-xl text-center transition-all group"
+                    href="https://qiblafinder.withgoogle.com/" rel="noopener noreferrer" target="_blank">
+                    <img alt="Ikon Arah Kiblat"
+                        class="w-8 h-8 mx-auto mb-2 object-contain group-hover:scale-110 transition-transform"
+                        src="./assets/icon/kaaba.svg" />
+                    <span class="block text-xs font-bold text-paper">
+                        Arah Kiblat
+                    </span>
+                    <span class="text-[9px] text-paper/70">
+                        Pencari Arah Kiblat
+                    </span>
+                </a>
+                <!-- Maktabah Online Pemuda Qoryah Babakan -->
+                <a class="p-4 bg-paper/10 hover:bg-paper/20 border border-paper/20 rounded-xl text-center transition-all group"
+                    href="https://drive.google.com/drive/folders/1sUAwsSnOoWf99jOCW5LtMuWDxodsS-sK"
+                    rel="noopener noreferrer" target="_blank">
+                    <img alt="Ikon Kajian Syariah"
+                        class="w-8 h-8 mx-auto mb-2 object-contain group-hover:scale-110 transition-transform"
+                        src="./assets/icon/maktabah.png" />
+                    <span class="block text-xs font-bold text-paper">
+                        Maktabah Online
+                    </span>
+                    <span class="text-[9px] text-paper/70">
+                        Beragam Bacaan
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto bg-sand border-t border-ink/20 py-8 px-4">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+            <div>
+                <h4 class="font-headline font-bold text-xl text-ink mb-1">Pemuda Qoryah Babakan</h4>
+                <p class="text-xs text-terracotta font-semibold italic mb-3">"Wangun pemudana, Kaarah salarea"</p>
+            </div>
+            <div>
+                <h5 class="font-headline font-bold text-base text-ink mb-2">Navigasi Utama</h5>
+                <ul class="text-xs space-y-1.5 text-ink/80">
+                    <li><a class="hover:text-terracotta" href="#jadwal">Jadwal Sholat &amp; Event</a></li>
+                    <li><a class="hover:text-terracotta" href="#profil">Profil &amp; Visi Misi</a></li>
+                    <li><a class="hover:text-terracotta" href="#kegiatan">Kegiatan Rutin</a></li>
+                    <li><a class="hover:text-terracotta" href="#kas">Transparansi Keuangan</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-headline font-bold text-base text-ink mb-2">
+                    Kontak Kami
+                </h5>
+                <!-- Alamat -->
+                <p class="text-xs text-ink/80 mb-2 flex items-center gap-2">
+                    <img alt="Lokasi" class="w-4 h-4 object-contain" src="./assets/icon/location.svg" />
+                    Masjid As-Salam Qoryah Babakan
+                </p>
+                <!-- Email -->
+                <p class="text-xs text-ink/80 mb-3 flex items-center gap-2">
+                    <img alt="Email" class="w-4 h-4 object-contain" src="./assets/icon/email.svg" />
+                    pemudaqoryah@gmail.com
+                </p>
+                <!-- Media Sosial -->
+                <div class="flex space-x-2">
+                    <!-- Instagram -->
+                    <a aria-label="Instagram Pemuda Qoryah"
+                        class="w-8 h-8 rounded-full bg-paper text-ink flex items-center justify-center border border-ink shadow-[1.5px_1.5px_0px_0px_#2B2927] hover:bg-terracotta hover:text-paper transition-all"
+                        href="https://www.instagram.com/pemudaberdikari_" rel="noopener noreferrer" target="_blank">
+                        <img alt="Instagram" class="w-4 h-4 object-contain" src="./assets/icon/instagram.svg" />
+                    </a>
+                    <!-- YouTube -->
+                    <a aria-label="YouTube Pemuda Qoryah"
+                        class="w-8 h-8 rounded-full bg-paper text-ink flex items-center justify-center border border-ink shadow-[1.5px_1.5px_0px_0px_#2B2927] hover:bg-terracotta hover:text-paper transition-all"
+                        href="https://www.youtube.com/@pemudaberdikaritv" rel="noopener noreferrer" target="_blank">
+                        <img alt="YouTube" class="w-4 h-4 object-contain" src="./assets/icon/youtube-logo.svg" />
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto pt-3 border-t border-ink/10 text-center text-[11px] text-ink/60">
+            &copy; 2026 Pemuda Qoryah Babakan. Hak Cipta Dilindungi.
+        </div>
+    </footer>
+    <script defer="" src="./js/script.js"></script>
+</body>
+
+</html>
