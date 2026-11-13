@@ -185,6 +185,28 @@ section[id] {
     line-height: 1.6;
 }
 
+/* Transparansi kas */
+.kas-table-wrapper {
+    max-height: 390px;
+    overflow-y: auto;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #D97757 #FDFBF7;
+}
+
+/* Header tabel tetap terlihat */
+.kas-table-wrapper thead {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: #FDFBF7;
+}
+
+/* Lebar minimum tabel agar nyaman di HP */
+.kas-table-wrapper table {
+    min-width: 600px;
+}
+
 /* =========================================
    GALERI 50 FOTO - FULL WIDTH MARQUEE
    ========================================= */
