@@ -91,21 +91,25 @@ section[id] {
 }
 
 /* Transparansi kas — judul, saldo, dan tabel ditata ulang */
+/* Container utama */
 #kas {
     max-width: 960px;
     width: 100%;
     margin-inline: auto;
+    box-sizing: border-box;
 }
 
-#kas>.art-card {
+/* Kartu transparansi kas */
+#kas > .art-card {
     width: 100%;
     padding: clamp(20px, 3.2vw, 34px);
     border-radius: 24px 8px 24px 8px;
     box-sizing: border-box;
 }
 
+/* Susunan judul dan saldo */
 #kas .kas-heading,
-#kas>.art-card>.flex:first-child {
+#kas > .art-card > .flex:first-child {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -113,14 +117,16 @@ section[id] {
     gap: 18px 24px;
 }
 
+/* Judul transparansi kas */
 #kas h2 {
     max-width: 100%;
     line-height: 1.2;
     overflow-wrap: anywhere;
 }
 
+/* Kotak saldo */
 #kas .kas-balance,
-#kas>.art-card>.flex:first-child>div:last-child {
+#kas > .art-card > .flex:first-child > div:last-child {
     flex: 0 0 auto;
     min-width: 205px;
     padding: 14px 20px;
@@ -128,8 +134,10 @@ section[id] {
     border: 1px solid #CDBBA8;
     border-radius: 14px;
     text-align: center;
+    box-sizing: border-box;
 }
 
+/* Angka saldo */
 #kas #kas-saldo-akhir {
     display: block;
     color: var(--olive);
@@ -139,74 +147,133 @@ section[id] {
     overflow-wrap: anywhere;
 }
 
-#kas .overflow-x-auto {
+/* ========================================
+   TABEL RIWAYAT KAS
+======================================== */
+
+/* Pembungkus tabel dan area scroll */
+#kas .kas-table-wrapper {
     width: 100%;
+    max-width: 100%;
+    max-height: 390px;
     margin-top: 20px;
+
     border: 1px solid #E8DED2;
     border-radius: 12px;
-    overflow-x: auto;
     background: #fff;
+
+    overflow-x: auto;
+    overflow-y: auto;
+
+    position: relative;
+    box-sizing: border-box;
+
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+
+    scrollbar-width: thin;
+    scrollbar-color: #D97757 #FDFBF7;
 }
 
-#kas table {
+/* Tabel */
+#kas .kas-table-wrapper table {
     width: 100%;
-    min-width: 590px;
+    min-width: 600px;
     border-collapse: collapse;
 }
 
-#kas thead th {
+/* Header tabel */
+#kas .kas-table-wrapper thead th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+
     padding: 14px 13px;
+
     background: var(--sand);
     color: var(--ink);
+
     font-size: 11px;
     font-weight: 700;
     white-space: nowrap;
+
     border-bottom: 1px solid var(--ink);
 }
 
-#kas tbody td {
+/* Isi tabel */
+#kas .kas-table-wrapper tbody td {
     padding: 13px;
     font-size: 12px;
     line-height: 1.55;
+
     border-bottom: 1px solid #EEE7DF;
     vertical-align: top;
 }
 
-#kas tbody tr:last-child td {
+/* Baris transaksi terakhir */
+#kas .kas-table-wrapper tbody tr:last-child td {
     border-bottom: 0;
 }
 
-#kas tbody tr:hover {
+/* Efek hover */
+#kas .kas-table-wrapper tbody tr:hover {
     background: #FDFBF7;
 }
 
+/* Informasi pembaruan data */
 #kas #kas-updated {
     padding-top: 4px;
     line-height: 1.6;
 }
 
-/* Transparansi kas */
-.kas-table-wrapper {
-    max-height: 390px;
-    overflow-y: auto;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #D97757 #FDFBF7;
-}
+/* ========================================
+   RESPONSIVE HP
+======================================== */
 
-/* Header tabel tetap terlihat */
-.kas-table-wrapper thead {
-    position: sticky;
-    top: 0;
-    z-index: 5;
-    background: #FDFBF7;
-}
+@media (max-width: 640px) {
 
-/* Lebar minimum tabel agar nyaman di HP */
-.kas-table-wrapper table {
-    min-width: 600px;
-}
+    #kas {
+        width: 100%;
+        max-width: 100%;
+        padding-inline: 12px;
+        box-sizing: border-box;
+    }
 
+    #kas > .art-card {
+        width: 100%;
+        padding: 18px;
+        box-sizing: border-box;
+    }
+
+    #kas .kas-table-wrapper {
+        width: 100%;
+        max-width: 100%;
+        max-height: 390px;
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+
+    #kas .kas-table-wrapper table {
+        min-width: 600px;
+        width: 600px;
+    }
+
+    #kas .kas-table-wrapper thead th,
+    #kas .kas-table-wrapper tbody td {
+        white-space: nowrap;
+    }
+
+    #kas .kas-table-wrapper tbody td:nth-child(2) {
+        white-space: normal;
+        min-width: 150px;
+    }
+
+    #kas .kas-balance,
+    #kas > .art-card > .flex:first-child > div:last-child {
+        min-width: 0;
+        max-width: 100%;
+    }
+}
 /* =========================================
    GALERI 50 FOTO - FULL WIDTH MARQUEE
    ========================================= */
