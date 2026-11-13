@@ -250,24 +250,75 @@ function escapeHTML(value) {
     }[ch]));
 }
 
+
 /* ---------- Tanggal Masehi dan Hijriah ---------- */
+
 function loadCalendarDate() {
     const now = new Date();
+
+    // Tanggal Masehi menggunakan zona waktu Jakarta
     setText('masehi-date', new Intl.DateTimeFormat('id-ID', {
-        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
-        timeZone: TZ
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'Asia/Jakarta'
     }).format(now));
 
     try {
-        const hijri = new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura', {
-            day: 'numeric', month: 'long', year: 'numeric',
-            timeZone: TZ
-        }).format(now);
-        setText('hijri-date', `${hijri} H`);
+        // Ambil komponen kalender Hijriah
+        const hijriFormatter = new Intl.DateTimeFormat(
+            'en-US-u-ca-islamic-umalqura',
+            {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric',
+                timeZone: 'Asia/Jakarta'
+            }
+        );
+
+        // Pastikan browser benar-benar mendukung kalender Hijriah
+        const calendar = hijriFormatter.resolvedOptions().calendar;
+
+        if (calendar !== 'islamic-umalqura') {
+            throw new Error('Kalender Hijriah tidak didukung browser.');
+        }
+
+        const parts = hijriFormatter.formatToParts(now);
+
+        const day = Number(parts.find(p => p.type === 'day').value);
+        const month = Number(parts.find(p => p.type === 'month').value);
+        const year = parts.find(p => p.type === 'year').value;
+
+        const namaBulanHijriah = [
+            'Muharram',
+            'Safar',
+            'Rabiul Awal',
+            'Rabiul Akhir',
+            'Jumadil Awal',
+            'Jumadil Akhir',
+            'Rajab',
+            'Syakban',
+            'Ramadan',
+            'Syawal',
+            'Zulkaidah',
+            'Zulhijah'
+        ];
+
+        const namaBulan = namaBulanHijriah[month - 1];
+
+        if (!namaBulan || !day || !year) {
+            throw new Error('Data tanggal Hijriah tidak valid.');
+        }
+
+        setText('hijri-date', `${day} ${namaBulan} ${year} H`);
+
     } catch (error) {
+        console.error('Gagal memuat tanggal Hijriah:', error);
         setText('hijri-date', 'Tanggal Hijriah tidak tersedia');
     }
 }
+
 
 /* ---------- Menu navigasi mobile ---------- */
 function setupMobileMenu() {
