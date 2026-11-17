@@ -40,27 +40,38 @@ function setText(id, value) {
     if (el) el.textContent = value;
 }
 
+
 /* ---------- JSONP untuk Google Apps Script ---------- */
-function requestAppsScript(type) {
+function requestAppsScript(type, batasWaktu = 15000) {
     return new Promise((resolve, reject) => {
         const callbackName = `qoryahCallback_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
         const script = document.createElement('script');
-        const timeout = setTimeout(() => finish(new Error('Waktu permintaan API habis.')), 15000);
+
+        const timeout = setTimeout(
+            () => finish(new Error('Waktu permintaan API habis.')),
+            batasWaktu
+        );
 
         function finish(error, data) {
             clearTimeout(timeout);
             delete window[callbackName];
             script.remove();
+
             if (error) reject(error);
             else resolve(data);
         }
 
         window[callbackName] = (data) => finish(null, data);
-        script.onerror = () => finish(new Error('Tidak dapat menghubungi Google Apps Script.'));
+
+        script.onerror = () => finish(
+            new Error('Tidak dapat menghubungi Google Apps Script.')
+        );
+
         script.src = `${API_URL}?type=${encodeURIComponent(type)}&callback=${callbackName}`;
         document.head.appendChild(script);
     });
 }
+
 
 
 /* ---------- Jadwal petugas ---------- */
@@ -868,51 +879,87 @@ function updateNextPrayer() {
 })();
 
 
+
 /* =========================================
-   GALERI 50 FOTO OTOMATIS
+   GALERI GOOGLE DRIVE
    ========================================= */
 
-function buatGaleri() {
+async function buatGaleri() {
     const trackAtas = document.getElementById('gallery-track-1');
     const trackBawah = document.getElementById('gallery-track-2');
 
     if (!trackAtas || !trackBawah) return;
 
-    function buatKelompok(mulai, selesai) {
-        const grup = document.createElement('div');
-        grup.className = 'gallery-group';
+    try {
+        // Ambil daftar foto dari Google Drive
+        const data = await requestAppsScript('galeri', 60000);
 
-        for (let i = mulai; i <= selesai; i++) {
-            const img = document.createElement('img');
-
-            img.src = `./assets/image/galeri/kegiatan (${i}).jpg`;
-            img.alt = `Dokumentasi Kegiatan ${i}`;
-            img.loading = 'lazy';
-            img.draggable = false;
-
-            img.onerror = function () {
-                console.warn(`Foto tidak ditemukan: ${img.src}`);
-                img.classList.add('gallery-image-error');
-            };
-
-            grup.appendChild(img);
+        if (!data || !Array.isArray(data.photos) || data.photos.length === 0) {
+            throw new Error('Data foto galeri tidak ditemukan.');
         }
 
-        return grup;
+        // Acak daftar foto
+        const daftarFoto = [...data.photos];
+
+        for (let i = daftarFoto.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [daftarFoto[i], daftarFoto[j]] = [daftarFoto[j], daftarFoto[i]];
+        }
+
+        // Ambil maksimal 50 foto
+        const fotoTerpilih = daftarFoto.slice(0, 50);
+
+        function buatKelompok(daftar) {
+            const grup = document.createElement('div');
+            grup.className = 'gallery-group';
+
+            daftar.forEach((foto) => {
+                const img = document.createElement('img');
+
+                img.src = foto.url;
+                img.alt = foto.name || 'Dokumentasi Kegiatan Pemuda Qoryah Babakan';
+                img.loading = 'lazy';
+                img.draggable = false;
+
+                img.onerror = function () {
+                    console.warn('Foto gagal dimuat:', foto.name);
+                    img.classList.add('gallery-image-error');
+                };
+
+                grup.appendChild(img);
+            });
+
+            return grup;
+        }
+
+        // Bagi foto menjadi dua baris
+        const fotoAtas = fotoTerpilih.slice(0, 25);
+        const fotoBawah = fotoTerpilih.slice(25, 50);
+
+        const grupAtas = buatKelompok(fotoAtas);
+        const grupBawah = buatKelompok(fotoBawah);
+
+        // Baris pertama
+        trackAtas.replaceChildren(
+            grupAtas,
+            grupAtas.cloneNode(true)
+        );
+
+        // Baris kedua
+        trackBawah.replaceChildren(
+            grupBawah,
+            grupBawah.cloneNode(true)
+        );
+
+        console.log(`Galeri berhasil dimuat: ${fotoTerpilih.length} foto dari ${data.total} foto.`);
+
+    } catch (error) {
+        console.error('Gagal memuat galeri Google Drive:', error);
     }
-
-    // Baris pertama: foto 1 sampai 25
-    const grupAtas = buatKelompok(1, 25);
-    trackAtas.appendChild(grupAtas);
-    trackAtas.appendChild(grupAtas.cloneNode(true));
-
-    // Baris kedua: foto 26 sampai 50
-    const grupBawah = buatKelompok(26, 50);
-    trackBawah.appendChild(grupBawah);
-    trackBawah.appendChild(grupBawah.cloneNode(true));
 }
 
 document.addEventListener('DOMContentLoaded', buatGaleri);
+
 
 /* ---------- Jalankan semua fitur setelah HTML siap ---------- */
 document.addEventListener('DOMContentLoaded', () => {
