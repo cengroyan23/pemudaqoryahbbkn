@@ -15,28 +15,23 @@ const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
   const notificationTitle =
-    payload.notification?.title || 'Pemuda Qoryah Babakan';
+    payload.data?.title ||
+    payload.notification?.title ||
+    'Pemuda Qoryah Babakan';
 
   const notificationOptions = {
-    body: payload.notification?.body || 'Ada informasi baru.',
-    icon: './assets/image/logo.png',
+    body:
+      payload.data?.body ||
+      payload.notification?.body ||
+      'Ada informasi baru.',
+    icon: './assets/image/pemudalogo.svg',
     data: {
-      url: './'
+      url: payload.data?.url || './'
     }
   };
 
   self.registration.showNotification(
     notificationTitle,
     notificationOptions
-  );
-});
-
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-
-  event.waitUntil(
-    clients.openWindow(
-      event.notification.data?.url || './'
-    )
   );
 });
