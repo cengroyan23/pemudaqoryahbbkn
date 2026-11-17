@@ -805,6 +805,8 @@ function updateNextPrayer() {
 
                 setButtonState('on');
 
+               alert('Alhamdulillaah, notifikasi berhasil diaktifkan!');
+
             } catch (error) {
                 console.error(
                     'Aktivasi notifikasi gagal:',
