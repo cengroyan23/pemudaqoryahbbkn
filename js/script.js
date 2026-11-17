@@ -892,7 +892,8 @@ async function buatGaleri() {
 
     try {
         // Ambil daftar foto dari Google Drive
-        const data = await requestAppsScript('galeri', 60000);
+        const respons = await requestAppsScript('galeri', 60000);
+const data = respons?.data || respons;
 
         if (!data || !Array.isArray(data.photos) || data.photos.length === 0) {
             throw new Error('Data foto galeri tidak ditemukan.');
