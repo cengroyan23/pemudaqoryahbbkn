@@ -14,17 +14,25 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
+
+  // Jika ada payload notification,
+  // biarkan Firebase menampilkannya otomatis.
+  if (payload.notification) {
+    return;
+  }
+
+  // Untuk pesan data-only, tampilkan manual.
   const notificationTitle =
     payload.data?.title ||
-    payload.notification?.title ||
     'Pemuda Qoryah Babakan';
 
   const notificationOptions = {
     body:
       payload.data?.body ||
-      payload.notification?.body ||
       'Ada informasi baru.',
+
     icon: './assets/image/pemudalogo.svg',
+
     data: {
       url: payload.data?.url || './'
     }
@@ -34,4 +42,5 @@ messaging.onBackgroundMessage((payload) => {
     notificationTitle,
     notificationOptions
   );
+
 });
