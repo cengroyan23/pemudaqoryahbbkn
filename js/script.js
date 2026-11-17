@@ -511,6 +511,151 @@ function updateNextPrayer() {
     // Jadwal waktu salat tetap ditampilkan pada lima kartu di atas.
 }
 
+/* =========================================================
+   14. FIREBASE CLOUD MESSAGING - NOTIFIKASI WEBSITE
+========================================================= */
+
+(function setupFirebaseNotification() {
+  document.addEventListener('DOMContentLoaded', function () {
+
+    // Pastikan Firebase SDK sudah tersedia
+    if (
+      typeof firebase === 'undefined' ||
+      !firebase.messaging ||
+      !('serviceWorker' in navigator)
+    ) {
+      console.warn('Firebase Messaging tidak tersedia di browser ini.');
+      return;
+    }
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCXRkBLUlgKci0zaVYi_dDIWWpjrApfz_4",
+      authDomain: "pemuda-qoryah-babakan.firebaseapp.com",
+      projectId: "pemuda-qoryah-babakan",
+      storageBucket: "pemuda-qoryah-babakan.firebasestorage.app",
+      messagingSenderId: "273692298898",
+      appId: "1:273692298898:web:e09bcb6d02e8d6c795204b",
+      measurementId: "G-T07XPPLS8M"
+    };
+
+    const VAPID_PUBLIC_KEY =
+      "BBd9Kpxkkf2G9IxQk4T0LKCtrQtLixQs87hF572aqzT3_22f4Z12_xI9Oc703RSW-H2EBwbPmmFx7KCt9R4zP4Y";
+
+    // Inisialisasi Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    const messaging = firebase.messaging();
+
+    // Membuat tombol notifikasi secara otomatis
+    const button = document.createElement('button');
+
+    button.id = 'aktifkan-notifikasi';
+    button.type = 'button';
+    button.textContent = '🔔 Aktifkan Notifikasi';
+
+    Object.assign(button.style, {
+      position: 'fixed',
+      bottom: '20px',
+      right: '20px',
+      zIndex: '9999',
+      padding: '12px 18px',
+      border: 'none',
+      borderRadius: '30px',
+      background: '#166534',
+      color: '#ffffff',
+      fontSize: '14px',
+      fontWeight: '600',
+      cursor: 'pointer',
+      boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+    });
+
+    document.body.appendChild(button);
+
+    // Proses aktivasi notifikasi
+    button.addEventListener('click', async function () {
+
+      button.disabled = true;
+      button.textContent = 'Memproses...';
+
+      try {
+        if (!('Notification' in window)) {
+          throw new Error('Browser tidak mendukung notifikasi.');
+        }
+
+        const permission = await Notification.requestPermission();
+
+        if (permission !== 'granted') {
+          throw new Error('Izin notifikasi belum diberikan.');
+        }
+
+        // Daftarkan Service Worker
+        const registration = await navigator.serviceWorker.register(
+          './firebase-messaging-sw.js'
+        );
+
+        await navigator.serviceWorker.ready;
+
+        // Ambil token perangkat
+        const token = await messaging.getToken({
+          vapidKey: VAPID_PUBLIC_KEY,
+          serviceWorkerRegistration: registration
+        });
+
+        if (!token) {
+          throw new Error('Token perangkat tidak berhasil diperoleh.');
+        }
+
+        // Kirim token ke Google Apps Script
+        const data = new URLSearchParams();
+
+        data.append('action', 'registerToken');
+        data.append('token', token);
+        data.append('browser', navigator.userAgent);
+
+        await fetch(API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: data
+        });
+
+        button.textContent = '✓ Notifikasi Diaktifkan';
+        button.style.background = '#64748b';
+
+        alert(
+          'Permintaan aktivasi notifikasi telah dikirim. ' +
+          'Silakan periksa tab FCM Tokens di Google Sheets.'
+        );
+
+      } catch (error) {
+        console.error('Aktivasi notifikasi gagal:', error);
+
+        button.disabled = false;
+        button.textContent = '🔔 Coba Aktifkan Lagi';
+
+        alert('Notifikasi belum berhasil diaktifkan: ' + error.message);
+      }
+    });
+
+    // Menangani pesan ketika website sedang dibuka
+    messaging.onMessage(function (payload) {
+      const title =
+        payload.notification?.title || 'Pemuda Qoryah Babakan';
+
+      const body =
+        payload.notification?.body || 'Ada informasi baru.';
+
+      if (Notification.permission === 'granted') {
+        new Notification(title, {
+          body: body,
+          icon: './assets/image/logo.png'
+        });
+      }
+    });
+
+  });
+})();
 
 /* =========================================
    GALERI 50 FOTO OTOMATIS
