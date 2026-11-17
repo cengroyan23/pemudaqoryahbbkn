@@ -511,185 +511,360 @@ function updateNextPrayer() {
     // Jadwal waktu salat tetap ditampilkan pada lima kartu di atas.
 }
 
+
 /* =========================================================
    14. FIREBASE CLOUD MESSAGING - NOTIFIKASI WEBSITE
 ========================================================= */
 
 (function setupFirebaseNotification() {
-  document.addEventListener('DOMContentLoaded', async function () {
+    document.addEventListener('DOMContentLoaded', async function () {
 
-    // 1. Buat tombol terlebih dahulu agar tidak hilang
-    const button = document.createElement('button');
+        // 1. Lokasi ikon
+        const ICON = {
+            on: './assets/icon/notification-on.svg',
+            off: './assets/icon/notification-of.svg',
+            loading: './assets/icon/loading.svg'
+        };
 
-    button.id = 'notification-button';
-    button.type = 'button';
-    button.innerHTML = '🔔 Aktifkan Notifikasi';
+        // 2. Buat tombol notifikasi
+        const button = document.createElement('button');
 
-    Object.assign(button.style, {
-      position: 'fixed',
-      right: '18px',
-      bottom: '18px',
-      zIndex: '9999',
-      padding: '12px 18px',
-      border: 'none',
-      borderRadius: '30px',
-      background: '#3B4D3C',
-      color: '#FDFBF7',
-      fontSize: '13px',
-      fontWeight: '600',
-      cursor: 'pointer',
-      boxShadow: '0 4px 12px rgba(0,0,0,.2)'
-    });
+        button.id = 'notification-button';
+        button.type = 'button';
+        button.setAttribute('aria-label', 'Aktifkan notifikasi');
 
-    document.body.appendChild(button);
-
-    // 2. Konfigurasi Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyCXRkBLUlgKci0zaVYi_dDIWWpjrApfz_4",
-      authDomain: "pemuda-qoryah-babakan.firebaseapp.com",
-      projectId: "pemuda-qoryah-babakan",
-      storageBucket: "pemuda-qoryah-babakan.firebasestorage.app",
-      messagingSenderId: "273692298898",
-      appId: "1:273692298898:web:e09bcb6d02e8d6c795204b",
-      measurementId: "G-T07XPPLS8M"
-    };
-
-    const VAPID_PUBLIC_KEY =
-      "BBd9Kpxkkf2G9IxQk4T0LKCtrQtLixQs87hF572aqzT3_22f4Z12_xI9Oc703RSW-H2EBwbPmmFx7KCt9R4zP4Y";
-
-    // 3. Periksa dukungan browser
-    if (
-      typeof firebase === 'undefined' ||
-      !firebase.messaging ||
-      !('serviceWorker' in navigator) ||
-      !('Notification' in window) ||
-      !('PushManager' in window)
-    ) {
-      button.innerHTML = '⚠️ Browser tidak mendukung notifikasi';
-      button.disabled = true;
-      return;
-    }
-
-    let messaging;
-
-    try {
-      // 4. Inisialisasi Firebase
-      if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-      }
-
-      messaging = firebase.messaging();
-
-    } catch (error) {
-      console.error('Firebase gagal diinisialisasi:', error);
-      button.innerHTML = '⚠️ Firebase belum siap';
-      return;
-    }
-
-    // 5. Fungsi klik tombol
-    button.addEventListener('click', async function () {
-      button.disabled = true;
-      button.innerHTML = '⏳ Memproses...';
-
-      try {
-        if (!window.isSecureContext) {
-          throw new Error(
-            'Website harus dibuka melalui HTTPS.'
-          );
-        }
-
-        const permission = await Notification.requestPermission();
-
-        if (permission !== 'granted') {
-          throw new Error(
-            'Izin notifikasi belum diberikan.'
-          );
-        }
-
-        const registration =
-          await navigator.serviceWorker.register(
-            './firebase-messaging-sw.js'
-          );
-
-        const token = await messaging.getToken({
-          vapidKey: VAPID_PUBLIC_KEY,
-          serviceWorkerRegistration: registration
+        Object.assign(button.style, {
+            position: 'fixed',
+            right: '18px',
+            bottom: '18px',
+            zIndex: '9999',
+            width: '48px',
+            height: '48px',
+            padding: '0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: '1px solid #2B2927',
+            borderRadius: '14px',
+            background: '#FDFBF7',
+            cursor: 'pointer',
+            boxShadow: '2px 3px 8px rgba(0,0,0,.18)',
+            transition: 'all .2s ease'
         });
 
-        if (!token) {
-          throw new Error(
-            'Token Firebase tidak berhasil dibuat.'
-          );
+        // 3. CSS tombol dan animasi loading
+        const style = document.createElement('style');
+
+        style.textContent = `
+            #notification-button:hover {
+                transform: translateY(-3px);
+                background: #F4ECE1;
+                box-shadow: 2px 5px 12px rgba(0,0,0,.22);
+            }
+
+            #notification-button:active {
+                transform: scale(.94);
+            }
+
+            #notification-button:focus-visible {
+                outline: 3px solid #D97757;
+                outline-offset: 3px;
+            }
+
+            #notification-button img {
+                width: 25px;
+                height: 25px;
+                object-fit: contain;
+            }
+
+            #notification-button.is-loading img {
+                animation: qoryah-notification-spin .8s linear infinite;
+            }
+
+            @keyframes qoryah-notification-spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+
+        document.head.appendChild(style);
+        document.body.appendChild(button);
+
+        // 4. Pengatur tampilan tombol
+        function setButtonState(state) {
+            const states = {
+                on: {
+                    icon: ICON.on,
+                    label: 'Notifikasi aktif'
+                },
+                off: {
+                    icon: ICON.off,
+                    label: 'Aktifkan notifikasi'
+                },
+                loading: {
+                    icon: ICON.loading,
+                    label: 'Sedang memproses notifikasi'
+                },
+                unsupported: {
+                    icon: ICON.off,
+                    label: 'Browser tidak mendukung notifikasi'
+                }
+            };
+
+            const current = states[state];
+
+            button.dataset.state = state;
+            button.innerHTML = `
+                <img src="${current.icon}" alt="">
+            `;
+
+            button.title = current.label;
+            button.setAttribute('aria-label', current.label);
+
+            button.classList.toggle(
+                'is-loading',
+                state === 'loading'
+            );
+
+            button.disabled =
+                state === 'loading' ||
+                state === 'unsupported';
+
+            button.style.opacity =
+                state === 'unsupported' ? '.5' : '1';
         }
 
-        const browser =
-          navigator.userAgent;
+        setButtonState('off');
 
-        const data = new URLSearchParams();
+        // 5. Konfigurasi Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXRkBLUlgKci0zaYVi_dDIWWpjrApfz_4",
+            authDomain: "pemuda-qoryah-babakan.firebaseapp.com",
+            projectId: "pemuda-qoryah-babakan",
+            storageBucket: "pemuda-qoryah-babakan.firebasestorage.app",
+            messagingSenderId: "273692298898",
+            appId: "1:273692298898:web:e09bcb6d02e8d6c795204b",
+            measurementId: "G-T07XPPLS8M"
+        };
 
-        data.append('action', 'registerToken');
-        data.append('token', token);
-        data.append('browser', browser);
+        const VAPID_PUBLIC_KEY =
+            "BBd9Kpxkkf2G9IxQk4T0LKCtrQtLixQs87hF572aqzT3_22f4Z12_xI9Oc703RSW-H2EBwbPmmFx7KCt9R4zP4Y";
 
-        await fetch(
-          'https://script.google.com/macros/s/AKfycbxLT6af3_x6F0jLImDZW1YgjhHpffvcl1nPOz5-KErEi7cZhOSjY6hgfqPuzSh83yWF/exec',
-          {
-            method: 'POST',
-            body: data,
-            mode: 'no-cors'
-          }
-        );
+        const TOKEN_STORAGE_KEY = 'qoryah_fcm_token';
 
-        button.innerHTML = '✓ Notifikasi Diaktifkan';
-        button.style.background = '#8A9A86';
+        const REGISTER_URL =
+            'https://script.google.com/macros/s/AKfycbxLT6af3_x6F0jLImDZW1YgjhHpffvcl1nPOz5-KErEi7cZhOSjY6hgfqPuzSh83yWF/exec';
 
-        console.log(
-          'Token Firebase:',
-          token
-        );
+        // 6. Periksa dukungan browser
+        if (
+            typeof firebase === 'undefined' ||
+            !firebase.messaging ||
+            !('serviceWorker' in navigator) ||
+            !('Notification' in window) ||
+            !('PushManager' in window)
+        ) {
+            setButtonState('unsupported');
+            return;
+        }
 
-        alert(
-          'Izin notifikasi sudah diberikan. Silakan periksa Google Sheets untuk memastikan token tersimpan.'
-        );
+        let messaging = null;
+        let swRegistration = null;
 
-      } catch (error) {
-        console.error(
-          'Proses notifikasi gagal:',
-          error
-        );
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
 
-        button.disabled = false;
-        button.innerHTML = '🔔 Coba Aktifkan Lagi';
+            messaging = firebase.messaging();
 
-        alert(error.message);
-      }
-    });
+        } catch (error) {
+            console.error('Firebase gagal diinisialisasi:', error);
+            setButtonState('off');
+            return;
+        }
 
-    // 6. Notifikasi ketika website sedang terbuka
-    messaging.onMessage(function (payload) {
-      console.log(
-        'Notifikasi diterima:',
-        payload
-      );
+        // 7. Simpan token ke Apps Script tanpa pesan kepada pengguna
+        async function registerToken(token) {
+            try {
+                let savedToken = null;
 
-      const title =
-        payload.notification?.title ||
-        'Pemuda Qoryah Babakan';
+                try {
+                    savedToken = localStorage.getItem(TOKEN_STORAGE_KEY);
+                } catch (error) {
+                    console.warn('Local storage tidak tersedia.');
+                }
 
-      const body =
-        payload.notification?.body ||
-        'Ada informasi baru.';
+                // Tidak mengirim ulang jika token sama
+                if (savedToken === token) return;
 
-      if (Notification.permission === 'granted') {
-        new Notification(title, {
-          body: body,
-          icon: './assets/image/pemudalogo.svg'
+                const data = new URLSearchParams();
+
+                data.append('action', 'registerToken');
+                data.append('token', token);
+                data.append('browser', navigator.userAgent);
+
+                await fetch(REGISTER_URL, {
+                    method: 'POST',
+                    body: data,
+                    mode: 'no-cors'
+                });
+
+                try {
+                    localStorage.setItem(TOKEN_STORAGE_KEY, token);
+                } catch (error) {
+                    console.warn('Token tidak dapat disimpan secara lokal.');
+                }
+
+            } catch (error) {
+                console.error('Gagal mengirim token:', error);
+            }
+        }
+
+        // 8. Memeriksa status notifikasi ketika website dibuka
+        async function checkNotificationStatus() {
+            if (Notification.permission !== 'granted') {
+                setButtonState('off');
+                return;
+            }
+
+            try {
+                swRegistration =
+                    await navigator.serviceWorker.register(
+                        './firebase-messaging-sw.js'
+                    );
+
+                const token = await messaging.getToken({
+                    vapidKey: VAPID_PUBLIC_KEY,
+                    serviceWorkerRegistration: swRegistration
+                });
+
+                if (!token) {
+                    setButtonState('off');
+                    return;
+                }
+
+                await registerToken(token);
+
+                setButtonState('on');
+
+            } catch (error) {
+                console.error(
+                    'Gagal memeriksa status notifikasi:',
+                    error
+                );
+
+                setButtonState('off');
+            }
+        }
+
+        // 9. Aktivasi notifikasi melalui tombol
+        button.addEventListener('click', async function () {
+
+            if (
+                button.dataset.state === 'on' ||
+                button.dataset.state === 'loading'
+            ) {
+                return;
+            }
+
+            setButtonState('loading');
+
+            try {
+                if (!window.isSecureContext) {
+                    throw new Error(
+                        'Website harus dibuka melalui HTTPS.'
+                    );
+                }
+
+                const permission =
+                    await Notification.requestPermission();
+
+                if (permission !== 'granted') {
+                    throw new Error(
+                        'Izin notifikasi belum diberikan. Silakan izinkan notifikasi melalui pengaturan situs di Chrome.'
+                    );
+                }
+
+                swRegistration =
+                    await navigator.serviceWorker.register(
+                        './firebase-messaging-sw.js'
+                    );
+
+                const token = await messaging.getToken({
+                    vapidKey: VAPID_PUBLIC_KEY,
+                    serviceWorkerRegistration: swRegistration
+                });
+
+                if (!token) {
+                    throw new Error(
+                        'Token notifikasi belum berhasil dibuat.'
+                    );
+                }
+
+                await registerToken(token);
+
+                setButtonState('on');
+
+            } catch (error) {
+                console.error(
+                    'Aktivasi notifikasi gagal:',
+                    error
+                );
+
+                setButtonState('off');
+
+                alert(error.message);
+            }
         });
-      }
-    });
 
-  });
+        // 10. Notifikasi ketika website sedang terbuka
+        messaging.onMessage(async function (payload) {
+            console.log('Notifikasi diterima:', payload);
+
+            const title =
+                payload.notification?.title ||
+                payload.data?.title ||
+                'Pemuda Qoryah Babakan';
+
+            const body =
+                payload.notification?.body ||
+                payload.data?.body ||
+                'Ada informasi baru.';
+
+            if (Notification.permission !== 'granted') return;
+
+            try {
+                if (!swRegistration) {
+                    swRegistration =
+                        await navigator.serviceWorker.ready;
+                }
+
+                await swRegistration.showNotification(title, {
+                    body: body,
+                    icon: new URL(
+                        './assets/image/pemudalogo.svg',
+                        window.location.href
+                    ).href,
+                    data: {
+                        url: payload.data?.url ||
+                            'https://cengroyan23.github.io/pemudaqoryahbbkn/'
+                    }
+                });
+
+            } catch (error) {
+                console.error(
+                    'Gagal menampilkan notifikasi:',
+                    error
+                );
+            }
+        });
+
+        // 11. Periksa status saat halaman pertama kali dibuka
+        checkNotificationStatus();
+
+    });
 })();
+
 
 /* =========================================
    GALERI 50 FOTO OTOMATIS
