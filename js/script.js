@@ -649,7 +649,7 @@ function updateNextPrayer() {
 
         // 5. Konfigurasi Firebase
         const firebaseConfig = {
-            apiKey: "AIzaSyCXRkBLUlgKci0zaYVi_dDIWWpjrApfz_4",
+           apiKey: "AIzaSyCXRkBLUlgKci0zaVYi_dDIWWpjrApfz_4",
             authDomain: "pemuda-qoryah-babakan.firebaseapp.com",
             projectId: "pemuda-qoryah-babakan",
             storageBucket: "pemuda-qoryah-babakan.firebasestorage.app",
