@@ -768,16 +768,63 @@ function updateNextPrayer() {
             }
         }
 
-        // 9. Aktivasi notifikasi melalui tombol
+        // 9. Aktivasi & Menonaktifkan notifikasi melalui tombol
         button.addEventListener('click', async function () {
+            const currentState = button.dataset.state;
 
-            if (
-                button.dataset.state === 'on' ||
-                button.dataset.state === 'loading'
-            ) {
+            if (currentState === 'loading') {
                 return;
             }
 
+            // --- JIKA STATUS AKTIF, UBAH JADI NONAKTIF (UNSUBSCRIBE) ---
+            if (currentState === 'on') {
+                setButtonState('loading');
+                try {
+                    // Hapus token dari Firebase SDK
+                    if (messaging) {
+                        const currentToken = await messaging.getToken({
+                            vapidKey: VAPID_PUBLIC_KEY,
+                            serviceWorkerRegistration: swRegistration
+                        });
+                        
+                        if (currentToken) {
+                            await messaging.deleteToken();
+                        }
+                    }
+
+                    // Bersihkan penyimpanan lokal
+                    try {
+                        localStorage.removeItem(TOKEN_STORAGE_KEY);
+                    } catch (e) {
+                        console.warn('Gagal menghapus local storage.');
+                    }
+
+                    // Opsional: Kirim sinyal hapus/nonaktif ke Google Apps Script jika diperlukan
+                    try {
+                        const data = new URLSearchParams();
+                        data.append('action', 'removeToken');
+                        data.append('browser', navigator.userAgent);
+                        await fetch(REGISTER_URL, {
+                            method: 'POST',
+                            body: data,
+                            mode: 'no-cors'
+                        });
+                    } catch (e) {
+                        console.warn('Gagal memperbarui status di server.');
+                    }
+
+                    setButtonState('off');
+                    alert('Notifikasi berhasil dinonaktifkan.');
+
+                } catch (error) {
+                    console.error('Gagal menonaktifkan notifikasi:', error);
+                    setButtonState('on');
+                    alert('Gagal menonaktifkan notifikasi. Silakan coba lagi.');
+                }
+                return;
+            }
+
+            // --- JIKA STATUS MATI, NYATAKAN / AKTIFKAN NOTIFIKASI ---
             setButtonState('loading');
 
             try {
@@ -829,6 +876,7 @@ function updateNextPrayer() {
                 alert(error.message);
             }
         });
+
 
         // 10. Notifikasi ketika website sedang terbuka
         messaging.onMessage(async function (payload) {
